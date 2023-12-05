@@ -1,11 +1,11 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { CompanyRepository } from 'src/modules/companies/repositories/company.repository';
+import { MentorRepository } from 'src/modules/mentors/repositories/mentor.repository';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(private readonly companyRepository: CompanyRepository,
+  constructor(private readonly mentorRepository: MentorRepository,
     ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -15,15 +15,15 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: { userName: string }) {
-    const company = await this.companyRepository.findOneCompanyByUserName(payload.userName);
+    const mentor = await this.mentorRepository.findOneMentorByUserName(payload.userName);
 
-    if (!company) {
-      throw new UnauthorizedException('Company not found or not authorized!');
+    if (!mentor) {
+      throw new UnauthorizedException('Mentor not found or not authorized!');
     }
     
-    if (company) {
-    delete company.companyPassword;
-    return company;
+    if (mentor) {
+    delete mentor.password;
+    return mentor;
     }
   }
 }

@@ -8,6 +8,8 @@ import { typeormConfig } from './database/data-source';
 import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
+import { MentorModule } from './modules/mentors/mentor.module';
+import { AdminModule } from './modules/admin/admin.module';
 
 @Module({
   imports: [
@@ -19,6 +21,6 @@ import { PassportModule } from '@nestjs/passport';
       })
     }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    JobsModule, CompanyModule, JobsDraftsModule, AuthModule],
+    JobsModule, CompanyModule, JobsDraftsModule, AuthModule, MentorModule, AdminModule],
 })
 export class AppModule {}

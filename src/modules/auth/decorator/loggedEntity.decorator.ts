@@ -6,14 +6,14 @@ import {
 
 export const LoggedEntity = createParamDecorator((_, ctx: ExecutionContext) => {
   const request = ctx.switchToHttp().getRequest();
-  const companyObject = request.user;
+  const userObject = request.user;
 
-  if (!companyObject) {
+  if (!userObject) {
     throw new UnauthorizedException(
       'User does not have permission to access this route',
     );
   }
   
-  delete companyObject.companyPassword
-  return companyObject;
+  delete userObject.password
+  return userObject;
 });

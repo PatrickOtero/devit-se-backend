@@ -1,19 +1,19 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jtw/jwt.strategy';
-import { CompanyModule } from '../companies/company.module';
-import { CompanyRepository } from '../companies/repositories/company.repository';
+import { MentorRepository } from '../mentors/repositories/mentor.repository';
+import { MentorEntity } from 'src/database/entities/mentor.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CompanyEntity } from 'src/database/entities/company.entity';
+import { AdminEntity } from 'src/database/entities/admin.entity';
+import { AdminRepository } from '../admin/repositories/admin.repository';
 
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([CompanyEntity]),
+    TypeOrmModule.forFeature([MentorEntity, AdminEntity]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       global: true,
@@ -22,7 +22,7 @@ import { CompanyEntity } from 'src/database/entities/company.entity';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, CompanyRepository],
+  providers: [AuthService, JwtStrategy, MentorRepository, AdminRepository],
   exports: [AuthService]
 })
 
